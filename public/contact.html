@@ -1,0 +1,177 @@
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+
+    
+    .hero-text {
+      text-align: center;
+      margin-top: 100px;
+    }
+   
+
+.youtube-icon {
+  position: fixed;
+  bottom: 40px;          /* Slightly above bottom */
+  right: 30px;           /* Aligned towards the right */
+  color: red;
+  font-size: 60px;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  z-index: 1000;         /* Makes sure it stays above other content */
+}
+
+
+    .youtube-icon:hover {
+      transform: scale(1.2);
+      color: #ff0000;
+    }
+    .content-box{
+      background-color: #faf8f8;
+      width: 500px;
+      height: 400px;
+      color: black;
+      font-size: 18px;
+
+    }
+  </style>
+ </head>
+ <body>
+  
+  
+<div id="navbar-container"></div>
+
+ 
+<div class="hero">
+  <div class="hero-text">
+    <h3>CONTACT US</h3>
+    <h2>Modern Interior & Design</h2>
+    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="glightbox youtube-icon" data-type="video">
+      <i class="fab fa-youtube"></i>
+    </a>
+  </div>
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+  <script>
+    const lightbox = GLightbox({
+      selector: '.glightbox'
+    });
+  </script>
+
+<section class="contact-section">
+  <div class="contact-container">
+   
+    <div class="contact-form">
+     <form id="contactForm">
+  <textarea name="message" placeholder="Enter Message" required></textarea>
+  <div class="form-row">
+    <input type="text" name="name" placeholder="Enter your name" required>
+    <input type="email" name="email" placeholder="Email" required>
+  </div>
+  <input type="text" name="subject" placeholder="Enter Subject" required>
+  <button type="submit">SEND</button>
+</form>
+
+    </div>
+
+    <div class="contact-info">
+      <div class="info-block">
+        <i class="fas fa-home"></i>
+        <div>
+          <strong>Bitmax Technology Pvt.Ltd</strong><br>
+          Bhutani Alphatum, sector 90
+      </div>
+      </div>
+
+      <div class="info-block">
+        <i class="fas fa-tablet-alt"></i>
+        <div>
+          <strong>+97 253 565 2365</strong><br>
+          Mon to Fri 9am to 6pm
+        </div>
+      </div>
+
+      <div class="info-block">
+        <i class="fas fa-envelope"></i>
+        <div>
+          <strong>support@bitmaxgroup.com</strong><br>
+          Send us your query anytime!
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+<div id="footer-container"></div>
+
+<script>
+  fetch('components/navbar.html')
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById('navbar-container').innerHTML = data;
+  });
+
+  //footer
+  // Load Footer
+    fetch('components/footer.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('footer-container').innerHTML = data;
+      })
+      .catch(err => console.error('Error loading footer:', err));
+
+
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const formData = {
+    message: form.message.value,
+    name: form.name.value,
+    email: form.email.value,
+    subject: form.subject.value,
+  };
+
+  try {
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      Swal.fire("Thank you!", "We will connect you soon.", "success");
+      form.reset();
+    } else {
+      Swal.fire("Oops!", "Something went wrong.", "error");
+    }
+  } catch (err) {
+    Swal.fire("Error", err.message, "error");
+  }
+});
+</script>
+
+
+ </body>
+ </html> 
